@@ -1,0 +1,32 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Shop curated everyday essentials at Marketly.">
+  <title>{% block title %}Marketly{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'store/styles.css' %}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell nav-wrap">
+      <a class="brand" href="/" aria-label="Marketly home"><span class="brand-mark">M</span>marketly</a>
+      <nav class="main-nav" aria-label="Primary navigation">
+        <a href="/">Shop</a>
+        {% if request.session.customer %}<a href="/orders/">Orders</a>{% endif %}
+        <a href="/cart/" class="cart-link">Bag <span aria-hidden="true">&#8594;</span></a>
+        {% if request.session.customer %}
+          <a class="nav-account" href="/logout/">Log out</a>
+        {% else %}
+          <a class="nav-account" href="/login/">Log in</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+  <main>{% block content %}{% endblock %}</main>
+  <footer class="site-footer">
+    <div class="shell footer-row"><a class="brand" href="/"><span class="brand-mark">M</span>marketly</a><p>Thoughtful things for everyday living.</p><p>&copy; {% now "Y" %} Marketly</p></div>
+  </footer>
+</body>
+</html>

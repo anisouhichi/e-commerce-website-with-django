@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}Marketly | Everyday goods, considered{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="shell hero-grid">
+    <div><p class="eyebrow">Small moments, well made</p><h1>Goods for your good days.</h1><p class="hero-copy">A quietly joyful edit of useful things, selected to make daily life feel a little more considered.</p></div>
+    <div class="hero-orbit"><div class="hero-note">New arrivals<br>are here.</div></div>
+  </div>
+</section>
+<section class="catalog shell" id="products">
+  <div class="catalog-head"><div><p class="eyebrow" style="color: var(--forest)">The collection</p><h2>Find your next favourite.</h2></div><div class="category-list"><a class="{% if not request.GET.category %}active{% endif %}" href="/">All</a>{% for category in categories %}<a class="{% if request.GET.category == category.id|stringformat:'s' %}active{% endif %}" href="/?category={{ category.id }}">{{ category.name }}</a>{% endfor %}</div></div>
+  <div class="product-grid">
+    {% for product in products %}
+    <article class="product-card"><div class="product-image">{% if product.image %}<img src="{{ product.image.url }}" alt="{{ product.name }}">{% else %}<span>{{ product.name|slice:':1' }}</span>{% endif %}</div><div class="product-meta"><h3 class="product-name">{{ product.name }}</h3><span class="price">&#8358;{{ product.price }}</span></div><p class="product-description">{{ product.description|default:"A thoughtfully selected everyday essential." }}</p><form method="post">{% csrf_token %}<input type="hidden" name="product" value="{{ product.id }}"><button class="button button-full" type="submit">Add to bag <span aria-hidden="true">&#43;</span></button></form></article>
+    {% empty %}<div class="empty" style="grid-column: 1 / -1"><h2>Our shelves are being restocked.</h2><p>Please check back soon for new arrivals.</p></div>{% endfor %}
+  </div>
+</section>
+{% endblock %}
